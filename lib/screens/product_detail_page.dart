@@ -67,11 +67,16 @@ class _ProductPageEcommerceAppState extends State<ProductPageEcommerceApp>{
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleAvatar(
-            backgroundColor: Colors.white,
-            maxRadius: 25,
-            minRadius: 25,
-            child: Icon(CupertinoIcons.back),
+          InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: CircleAvatar(
+              backgroundColor: Colors.white,
+              maxRadius: 25,
+              minRadius: 25,
+              child: Icon(CupertinoIcons.back),
+            ),
           ),
           Spacer(),
           CircleAvatar(

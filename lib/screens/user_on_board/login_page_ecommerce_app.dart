@@ -36,8 +36,8 @@ class LoginPageEcommerceApp extends StatelessWidget {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Please enter your email";
-                  } else if (!emailRegExp.hasMatch(value)) {
-                    return "Please enter a valid email";
+                  } else if (!emailRegExp.hasMatch(value) && value.length != 10) {
+                    return "Please enter a valid email or phone number";
                   } else {
                     return null;
                   }
