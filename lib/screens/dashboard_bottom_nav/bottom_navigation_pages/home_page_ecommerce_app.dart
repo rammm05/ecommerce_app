@@ -1,10 +1,18 @@
-import 'package:ecommerce_ui/app_routes.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:ecommerce_ui/domain/constants/app_routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomePageEcommerceApp extends StatelessWidget{
 
   bool isTapSearch = false;
+
+  List<String> bannerUrls = [
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWtOwIKBOgcgzcUvJvcq8_O2fySl6ks_UYOFNU2GOs-g&s",
+    "https://res.cloudinary.com/jerrick/image/upload/d_642250b563292b35f27461a7.png,f_jpg,fl_progressive,q_auto,w_1024/694d640c7f156f001df54e36.png",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2ne4P5EyzIAvdqq__FBEJ6cBo7lUueNh5WmR5ah5TGA&s=10",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTS1VcTxYmdx1H0UhhNUr9jHzoYRGRMv0URDxpiRGAldw&s=10",
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -116,18 +124,39 @@ class HomePageEcommerceApp extends StatelessWidget{
       onTap: (){
         Navigator.pushNamed(context, AppRoutes.PRODUCT_PAGE);
       },
-      child: Container(
-        width: double.infinity,
-        height: 200,
-        decoration: BoxDecoration(
-            color: Colors.grey,
-            border: Border.all(color: Colors.grey),
-            borderRadius: BorderRadius.circular(20),
-            image: DecorationImage(image: NetworkImage("https://i0.wp.com/360rumors.com/wp-content/uploads/2020/12/insta360holiday.jpg?resize=1024%2C402&ssl=1"), fit: BoxFit.fill)
-        ),
-      ),
+        child: SizedBox(
+            width: double.infinity,
+            height: 250,
+            child: CarouselSlider.builder(
+          itemCount: bannerUrls.length,
+          itemBuilder: (_, index, _) {
+            return Container(
+              margin: EdgeInsets.all(11),
+                width: double.infinity,
+                height: 250,
+                decoration: BoxDecoration(
+                    //color: Colors.grey.shade300,
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(20),
+                    image: DecorationImage(image: NetworkImage(bannerUrls[index]),
+                        fit: BoxFit.fill)
+                )
+            );
+          },
+          options: CarouselOptions(
+              autoPlayAnimationDuration: Duration(seconds: 1),
+              autoPlayCurve: Curves.decelerate,
+              autoPlay: true,
+            autoPlayInterval: Duration(seconds: 5),
+            viewportFraction: 1
+          ),
+
+        )
+        )
     );
   }
+
+  ///...donts indicator
 
   ///...verticalProduct list part 4
   Widget verticalProductList(){

@@ -1,14 +1,13 @@
 
-import 'package:ecommerce_ui/app_routes.dart';
-import 'package:ecommerce_ui/screens/dashboard_bottom_nav/bottom_nav_bar.dart';
-import 'package:ecommerce_ui/screens/product_detail_page.dart';
-import 'package:ecommerce_ui/screens/splash_page_ecommerce_app.dart';
-import 'package:ecommerce_ui/screens/user_on_board/login_page_ecommerce_app.dart';
-import 'package:ecommerce_ui/screens/user_on_board/signup_page_ecommerce_app.dart';
+import 'package:ecommerce_ui/data/remote/helper/api_helper.dart';
+import 'package:ecommerce_ui/domain/constants/app_routes.dart';
+import 'package:ecommerce_ui/screens/user_on_boarding/bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(BlocProvider(create: (context)=> UserBloc(apiHelper: ApiHelper()),
+    child: MyApp(),));
 }
 
 class MyApp extends StatelessWidget {
@@ -17,6 +16,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+          colorScheme:  ColorScheme.fromSeed(seedColor: Colors.amber)
+      ),
       //home: BottomNavBar(),
       routes: AppRoutes.mRoutes,
       initialRoute: AppRoutes.SPLASH_PAGE,

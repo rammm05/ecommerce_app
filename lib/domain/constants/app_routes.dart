@@ -1,9 +1,10 @@
 import 'package:ecommerce_ui/screens/dashboard_bottom_nav/bottom_nav_bar.dart';
 import 'package:ecommerce_ui/screens/product_detail_page.dart';
-import 'package:ecommerce_ui/screens/splash_page_ecommerce_app.dart';
-import 'package:ecommerce_ui/screens/user_on_board/login_page_ecommerce_app.dart';
-import 'package:ecommerce_ui/screens/user_on_board/signup_page_ecommerce_app.dart';
+import 'package:ecommerce_ui/screens/splash/splash_page_ecommerce_app.dart';
+import 'package:ecommerce_ui/screens/user_on_boarding/pages/login_page_ecommerce_app.dart';
 import 'package:flutter/cupertino.dart';
+
+import '../../screens/user_on_boarding/pages/signup_page_ecommerce_app.dart';
 
 class AppRoutes {
   static const String SPLASH_PAGE = "/";

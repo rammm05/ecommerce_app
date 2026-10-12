@@ -1,4 +1,4 @@
-import 'package:ecommerce_ui/app_routes.dart';
+import 'package:ecommerce_ui/domain/constants/app_routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

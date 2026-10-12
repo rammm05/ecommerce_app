@@ -1,6 +1,10 @@
-import 'package:ecommerce_ui/app_routes.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:ecommerce_ui/domain/constants/app_routes.dart';
+import 'package:ecommerce_ui/screens/user_on_boarding/bloc/user_bloc.dart';
+import 'package:ecommerce_ui/screens/user_on_boarding/bloc/user_event.dart';
+import 'package:ecommerce_ui/screens/user_on_boarding/bloc/user_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 class SignupPageEcommerceApp extends StatelessWidget {
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
@@ -21,6 +25,8 @@ class SignupPageEcommerceApp extends StatelessWidget {
 
   bool isPassVisible = false;
   bool isConfirmPassVisible = false;
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -190,34 +196,71 @@ class SignupPageEcommerceApp extends StatelessWidget {
               ),
               SizedBox(height: 30),
 
-              SizedBox(
-                height: 80,
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (formkey.currentState!.validate()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("Account created successfully"),
-                          backgroundColor: Colors.green,
+              BlocConsumer<UserBloc, UserState>(
+                listener: (context, state){
+
+                  if(state is UserLoadingState){
+                    isLoading = true;
+                  }
+
+                  if(state is UserFailureState){
+                    isLoading = false;
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(state.errMsg),backgroundColor: Colors.red,));
+                  }
+
+                  if(state is UserSuccessState){
+                    isLoading = false;
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text("Successfully Registered"),
+                      backgroundColor: Colors.green,));
+
+                    //Navigator.push(context, MaterialPageRoute(builder: (context)=> BottomNavBar));
+                    Navigator.pushReplacementNamed(context, AppRoutes.DASHBOARD_BOTTOM_NAV_PAGE);
+
+                  }
+
+                },
+                builder: (context, state) {
+
+                    return SizedBox(
+                      height: 80,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (formkey.currentState!.validate()) {
+
+                            BlocProvider.of<UserBloc>(context).add(UserRegisterEvent(
+                                name: userNameController.text,
+                                email: emailController.text,
+                                pass: createPassController.text,
+                                mobNo: phoneController.text
+                            ));
+
+                            /*ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Account created successfully"),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+
+                          Navigator.pushReplacementNamed(context, AppRoutes.DASHBOARD_BOTTOM_NAV_PAGE);*/
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.orange.shade900,
                         ),
-                      );
-                      
-                      Navigator.pushReplacementNamed(context, AppRoutes.DASHBOARD_BOTTOM_NAV_PAGE);
-                    }
-                  },
-                  child: Text(
-                    "Sign up",
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange.shade900,
-                  ),
-                ),
+                        child: !isLoading ? Text(
+                          "Sign up",
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ) : CircularProgressIndicator() ,
+                      ),
+                    );
+                }
               ),
               SizedBox(height: 60),
 
